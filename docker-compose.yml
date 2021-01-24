@@ -1,0 +1,20 @@
+version: '3'
+services:
+  redis:
+    image: redis:3.2
+    restart: always
+  flask:
+    build: ./flask
+    ports:
+     - "5000:5000"
+    links: 
+     - redis:redis-server 
+    environment:
+     - REDIS_HOST=redis-server
+    restart: always
+  nginx: 
+    build: ./nginx 
+    ports: 
+      - "80:80" 
+    links: 
+     - flask
